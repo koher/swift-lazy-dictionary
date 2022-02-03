@@ -1,7 +1,7 @@
 public protocol DictionaryProtocol: Sequence where Element == (key: Key, value: Value) {
-    associatedtype Key: Hashable
+    associatedtype Key
     associatedtype Value
-    associatedtype Keys: Sequence where Keys.Element == Key
+    associatedtype Keys: SetProtocol where Keys.Element == Key
     associatedtype Values: Sequence where Values.Element == Value
     
     var count: Int { get }

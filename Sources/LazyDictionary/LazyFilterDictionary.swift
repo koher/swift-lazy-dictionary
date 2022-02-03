@@ -10,8 +10,8 @@ public struct LazyFilterDictionary<Base>: LazyDictionaryProtocol where Base: Laz
     /// O(n)
     public var count: Int { base.lazy.filter(isIncluded).reduce(0) { r, _ in r + 1 } }
 
-    public var keys: LazyMapSequence<LazyFilterSequence<LazySequence<Base>.Elements>.Elements, Base.Key> {
-        base.lazy.filter(isIncluded).map(\.key)
+    public var keys: Keys {
+        Keys(base: self)
     }
     
     public var values: LazyMapSequence<LazyFilterSequence<LazySequence<Base>.Elements>.Elements, Base.Value> {
@@ -29,5 +29,24 @@ public struct LazyFilterDictionary<Base>: LazyDictionaryProtocol where Base: Laz
             guard isIncluded(element) else { return nil }
             return (element.key, element.value)
         }.makeIterator()
+    }
+    
+    public struct Keys: SetProtocol {
+        fileprivate let base: LazyFilterDictionary<Base>
+        
+        /// O(n)
+        public var count: Int { base.count }
+        
+        public func contains(_ member: Base.Key) -> Bool {
+            guard let value = base[member] else { return false }
+            return base.isIncluded((key: member, value: value))
+        }
+        
+        public func makeIterator() -> LazyMapSequence<LazyFilterSequence<LazyMapSequence<LazySequence<LazyFilterDictionary<Base>>.Elements, Base.Key?>>, Base.Key>.Iterator {
+            base.lazy.compactMap { element -> Base.Key? in
+                guard base.isIncluded(element) else { return nil }
+                return element.key
+            }.makeIterator()
+        }
     }
 }
