@@ -48,5 +48,13 @@ public struct LazyFilterDictionary<Base>: LazyDictionaryProtocol where Base: Laz
                 return element.key
             }.makeIterator()
         }
+        
+        public var description: String {
+            Set(self).description
+        }
+        
+        public var debugDescription: String {
+            "\(String(reflecting: Base.self)).\(Self.self)(\(description))"
+        }
     }
 }
