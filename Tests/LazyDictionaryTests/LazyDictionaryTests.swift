@@ -51,18 +51,28 @@ final class LazyDictionaryTests: XCTestCase {
     }
     
     func testDescription() {
-        let r = d.description
-        XCTAssertEqual(r.count, original.description.count)
-        XCTAssertTrue(r.hasPrefix("["))
-        XCTAssertTrue(r.hasSuffix("]"))
-        XCTAssertTrue(r.contains(#""a": 0"#))
-        XCTAssertTrue(r.contains(#""b": 1"#))
-        XCTAssertTrue(r.contains(#""c": 1"#))
-        XCTAssertTrue(r.contains(#""d": 2"#))
-        XCTAssertTrue(r.contains(#""e": 3"#))
-        XCTAssertTrue(r.contains(#""f": 5"#))
-        XCTAssertTrue(r.contains(#""g": 8"#))
-        XCTAssertEqual(r.filter { $0 == "," }.count, 6)
+        XCTContext.runActivity(named: "Standard Case") { _ in
+            let r = d.description
+            XCTAssertEqual(r.count, original.description.count)
+            XCTAssertTrue(r.hasPrefix("["))
+            XCTAssertTrue(r.hasSuffix("]"))
+            XCTAssertTrue(r.contains(#""a": 0"#))
+            XCTAssertTrue(r.contains(#""b": 1"#))
+            XCTAssertTrue(r.contains(#""c": 1"#))
+            XCTAssertTrue(r.contains(#""d": 2"#))
+            XCTAssertTrue(r.contains(#""e": 3"#))
+            XCTAssertTrue(r.contains(#""f": 5"#))
+            XCTAssertTrue(r.contains(#""g": 8"#))
+            XCTAssertEqual(r.filter { $0 == "," }.count, 6)
+        }
+        
+        XCTContext.runActivity(named: "Non-String Keys") { _ in
+            let a = [42: "x"]
+            let b = a.lazyDictionary
+            let r = b.description
+            XCTAssertEqual(r, a.description)
+            XCTAssertEqual(r, #"[42: "x"]"#)
+        }
     }
     
     func testDebugDescription() {
