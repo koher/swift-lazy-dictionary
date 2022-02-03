@@ -17,9 +17,3 @@ public struct LazyDictionary<Key, Value>: LazyDictionaryProtocol where Key: Hash
         dictionary.makeIterator()
     }
 }
-
-extension Dictionary {
-    public var lazyDictionary: LazyDictionary<Key, Value> {
-        LazyDictionary(dictionary: self)
-    }
-}

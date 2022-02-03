@@ -11,5 +11,3 @@ public protocol DictionaryProtocol: Sequence, CustomStringConvertible, CustomDeb
     
     subscript(key: Key) -> Value? { get }
 }
-
-extension Dictionary: DictionaryProtocol {}
