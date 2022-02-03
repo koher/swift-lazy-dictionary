@@ -50,4 +50,28 @@ final class LazyFilterDictionaryTests: XCTestCase {
             original.filter(isIncluded)
         )
     }
+    
+    func testDescription() {
+        let r = d.description
+        XCTAssertEqual(r.count, original.filter(isIncluded).description.count)
+        XCTAssertTrue(r.hasPrefix("["))
+        XCTAssertTrue(r.hasSuffix("]"))
+        XCTAssertTrue(r.contains(#""b": 1"#))
+        XCTAssertTrue(r.contains(#""c": 1"#))
+        XCTAssertTrue(r.contains(#""e": 3"#))
+        XCTAssertTrue(r.contains(#""f": 5"#))
+        XCTAssertEqual(r.filter { $0 == "," }.count, 3)
+    }
+    
+    func testDebugDescription() {
+        let r = d.debugDescription
+        XCTAssertEqual(r.count, original.filter(isIncluded).description.count)
+        XCTAssertTrue(r.hasPrefix("["))
+        XCTAssertTrue(r.hasSuffix("]"))
+        XCTAssertTrue(r.contains(#""b": 1"#))
+        XCTAssertTrue(r.contains(#""c": 1"#))
+        XCTAssertTrue(r.contains(#""e": 3"#))
+        XCTAssertTrue(r.contains(#""f": 5"#))
+        XCTAssertEqual(r.filter { $0 == "," }.count, 3)
+    }
 }

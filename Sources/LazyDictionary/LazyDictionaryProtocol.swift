@@ -22,4 +22,22 @@ extension LazyDictionaryProtocol {
             transform: { $0! }
         )
     }
+    
+    public var description: String {
+        var description = ""
+        for (key, value) in self {
+            if description.isEmpty {
+                description.append("[")
+            } else {
+                description.append(", ")
+            }
+            description.append("\"\(key)\": \(value)")
+        }
+        description.append("]")
+        return description
+    }
+    
+    public var debugDescription: String {
+        description
+    }
 }

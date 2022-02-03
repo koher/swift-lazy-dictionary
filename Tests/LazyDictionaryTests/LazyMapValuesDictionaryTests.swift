@@ -50,4 +50,34 @@ final class LazyMapValuesDictionaryTests: XCTestCase {
             original.mapValues(transform)
         )
     }
+    
+    func testDescription() {
+        let r = d.description
+        XCTAssertEqual(r.count, original.mapValues(transform).description.count)
+        XCTAssertTrue(r.hasPrefix("["))
+        XCTAssertTrue(r.hasSuffix("]"))
+        XCTAssertTrue(r.contains(#""a": 0"#))
+        XCTAssertTrue(r.contains(#""b": 1"#))
+        XCTAssertTrue(r.contains(#""c": 1"#))
+        XCTAssertTrue(r.contains(#""d": 4"#))
+        XCTAssertTrue(r.contains(#""e": 9"#))
+        XCTAssertTrue(r.contains(#""f": 25"#))
+        XCTAssertTrue(r.contains(#""g": 64"#))
+        XCTAssertEqual(r.filter { $0 == "," }.count, 6)
+    }
+    
+    func testDebugDescription() {
+        let r = d.debugDescription
+        XCTAssertEqual(r.count, original.mapValues(transform).description.count)
+        XCTAssertTrue(r.hasPrefix("["))
+        XCTAssertTrue(r.hasSuffix("]"))
+        XCTAssertTrue(r.contains(#""a": 0"#))
+        XCTAssertTrue(r.contains(#""b": 1"#))
+        XCTAssertTrue(r.contains(#""c": 1"#))
+        XCTAssertTrue(r.contains(#""d": 4"#))
+        XCTAssertTrue(r.contains(#""e": 9"#))
+        XCTAssertTrue(r.contains(#""f": 25"#))
+        XCTAssertTrue(r.contains(#""g": 64"#))
+        XCTAssertEqual(r.filter { $0 == "," }.count, 6)
+    }
 }

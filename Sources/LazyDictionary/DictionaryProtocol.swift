@@ -1,4 +1,4 @@
-public protocol DictionaryProtocol: Sequence where Element == (key: Key, value: Value) {
+public protocol DictionaryProtocol: Sequence, CustomStringConvertible, CustomDebugStringConvertible where Element == (key: Key, value: Value) {
     associatedtype Key
     associatedtype Value
     associatedtype Keys: SetProtocol where Keys.Element == Key
